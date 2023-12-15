@@ -1,0 +1,23 @@
+name: SonarCloud Project Creation
+
+on:
+  repository:
+    types: [created]
+
+jobs:
+  create-sonar-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Repository Name
+        run: echo "REPO_NAME=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)"
+        id: repo_name
+
+      - name: Get Username
+        run: echo "USERNAME=$(echo ${{ github.repository_owner }})"
+        id: username
+
+      - name: Execute curl command
+        run: |
+        projectname: USERNAME
+        curl -v -X POST https://6fc64e77a52492cc3cf278022dc09d987a996389@sonarcloud.io/api/projects/create -d "name=$GITHUB_REPOSITORY&project=projectname&organization=thedevfactory-ai"
+
